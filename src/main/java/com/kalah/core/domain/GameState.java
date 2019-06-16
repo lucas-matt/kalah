@@ -4,9 +4,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
-public class Game {
+public class GameState {
 
     @NotBlank
     private UUID id;
@@ -14,12 +15,8 @@ public class Game {
     @NotEmpty
     private Map<String ,String> status;
 
-    private Game(UUID id) {
+    public GameState(UUID id) {
         this.id = id;
-    }
-
-    public static Game create() {
-        return new Game(UUID.randomUUID());
     }
 
     public UUID getId() {
@@ -28,5 +25,18 @@ public class Game {
 
     public Map<String, String> getStatus() {
         return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameState gameState = (GameState) o;
+        return Objects.equals(id, gameState.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

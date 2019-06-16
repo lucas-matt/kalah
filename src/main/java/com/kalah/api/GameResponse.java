@@ -1,7 +1,7 @@
 package com.kalah.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kalah.core.domain.Game;
+import com.kalah.core.domain.GameState;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.annotation.Nullable;
@@ -29,8 +29,8 @@ public class GameResponse {
         this.status = status;
     }
 
-    public static GameResponse from(Game game) {
-        return new GameResponse(game.getId(), game.getStatus());
+    public static GameResponse from(GameState gameState) {
+        return new GameResponse(gameState.getId(), gameState.getStatus());
     }
 
     public GameResponse withResourcePath(URI uri) {

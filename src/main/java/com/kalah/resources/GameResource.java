@@ -2,7 +2,12 @@ package com.kalah.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.kalah.api.GameResponse;
-import com.kalah.core.domain.Game;
+import com.kalah.core.domain.GameState;
+import com.kalah.core.domain.Move;
+import com.kalah.core.engine.preconditions.PreconditionNotSatisfiedException;
+import com.kalah.db.GameDB;
+import com.kalah.core.engine.GameEngine;
+import com.kalah.db.GameNotFoundException;
 import io.swagger.annotations.Api;
 
 import javax.ws.rs.*;
@@ -11,13 +16,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.UUID;
 
 @Api
 @Path("/games")
 @Produces(MediaType.APPLICATION_JSON)
 public class GameResource {
 
-    public static final String RESOURCE_PATH = "/games/";
+    private static final String RESOURCE_PATH = "/games/";
 
     @Context
     private UriInfo uriInfo;
@@ -25,10 +31,10 @@ public class GameResource {
     @POST
     @Timed
     public Response createGame() {
-        Game game = Game.create();
+        GameState gameState = GameDB.create();
         URI baseUri = uriInfo.getBaseUri().resolve(RESOURCE_PATH);
         GameResponse gameResponse = GameResponse
-                .from(game)
+                .from(gameState)
                 .withResourcePath(baseUri);
         return Response
                 .created(gameResponse.getUri())
@@ -40,7 +46,16 @@ public class GameResource {
     @PUT
     @Path("/{gameId}/pits/{pitId}")
     @Timed
-    public GameResponse move(@PathParam("gameId") String gameId, @PathParam("pitId") String pitId) {
+    public GameResponse move(@PathParam("gameId") UUID gameId, @PathParam("pitId") String pitId) {
+        try {
+            GameState currentState = GameDB.get(gameId);
+            GameEngine engine = GameEngine.load(currentState);
+            GameState nextState = engine.apply(new Move(pitId));
+            GameDB.put(nextState);
+        } catch (GameNotFoundException | PreconditionNotSatisfiedException e) {
+            e.printStackTrace();
+            // TODO
+        }
         return null;
     }
 
