@@ -1,5 +1,6 @@
 package com.kalah.db;
 
+import com.kalah.core.domain.Player;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,14 +10,15 @@ import java.util.UUID;
 
 public class GameState {
 
-    @NotBlank
     private UUID id;
 
-    @NotEmpty
     private Map<String ,Integer> status;
+
+    private Player nextTurn;
 
     public GameState(UUID id) {
         this.id = id;
+        this.nextTurn = Player.ONE;
     }
 
     public UUID getId() {

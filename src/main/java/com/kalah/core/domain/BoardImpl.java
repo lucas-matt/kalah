@@ -18,4 +18,9 @@ public class BoardImpl implements Board {
     public Player getPitOwner(int pitId) {
         return null;
     }
+
+    @Override
+    public boolean isPit(int pit) {
+        return false;
+    }
 }

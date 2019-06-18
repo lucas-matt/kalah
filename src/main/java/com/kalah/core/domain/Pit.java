@@ -2,8 +2,14 @@ package com.kalah.core.domain;
 
 public interface Pit {
 
-    int getStones();
+    int count();
+
+    int takeAll();
+
+    int increment();
 
     Pit next();
+
+    Pit opposite();
 
 }

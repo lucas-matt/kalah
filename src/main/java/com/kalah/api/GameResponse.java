@@ -25,12 +25,11 @@ public class GameResponse {
         // required for deserialization
     }
 
-    private GameResponse(UUID id, Map<String, String> status) {
+    private GameResponse(UUID id) {
         this.id = id;
-        this.status = status;
     }
 
-    public static GameResponse from(GameState gameState) {
+    public static GameResponse fromWithStatus(GameState gameState) {
         Map<String, String> status = gameState.getStatus()
                 .entrySet()
                 .stream()
@@ -40,7 +39,13 @@ public class GameResponse {
                                 (e) -> e.getValue().toString()
                         )
                 );
-        return new GameResponse(gameState.getId(), status);
+        GameResponse resp = from(gameState);
+        resp.setStatus(status);
+        return resp;
+    }
+
+    public static GameResponse from(GameState gameState) {
+        return new GameResponse(gameState.getId());
     }
 
     public GameResponse withResourcePath(URI uri) {
@@ -61,5 +66,9 @@ public class GameResponse {
     @JsonProperty
     public Map<String, String> getStatus() {
         return status;
+    }
+
+    void setStatus(Map<String, String> status) {
+        this.status = status;
     }
 }

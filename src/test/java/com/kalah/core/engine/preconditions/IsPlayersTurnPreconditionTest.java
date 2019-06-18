@@ -17,7 +17,7 @@ public class IsPlayersTurnPreconditionTest {
     @Mock
     private Board board;
 
-    private IsPlayersTurnPrecondition precondition;
+    private Precondition precondition;
 
     @Before
     public void setUp() {

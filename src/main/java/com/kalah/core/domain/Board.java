@@ -13,4 +13,6 @@ public interface Board {
     Player getActivePlayer();
 
     Player getPitOwner(int pitId);
+
+    boolean isPit(int pit);
 }

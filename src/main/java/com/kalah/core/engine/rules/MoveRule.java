@@ -13,7 +13,7 @@ public class MoveRule implements Rule {
 
     @Override
     public void accept(Board board) {
-        
+//        board.getPit(move
     }
 
 }
