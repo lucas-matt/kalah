@@ -1,7 +1,11 @@
 logging:
   level: INFO
   loggers:
-    com.lucasmatt: DEBUG
+    com.lucasmatt: INFO
 
 swagger:
   resourcePackage: com.kalah.resources
+
+board:
+  pitsPerPLayer: 6
+  stonesPerPit: 6

@@ -1,4 +1,4 @@
-package com.kalah.core.domain;
+package com.kalah.db;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,7 +13,7 @@ public class GameState {
     private UUID id;
 
     @NotEmpty
-    private Map<String ,String> status;
+    private Map<String ,Integer> status;
 
     public GameState(UUID id) {
         this.id = id;
@@ -23,8 +23,12 @@ public class GameState {
         return id;
     }
 
-    public Map<String, String> getStatus() {
+    public Map<String, Integer> getStatus() {
         return status;
+    }
+
+    public void setStatus(Map<String, Integer> status) {
+        this.status = status;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.kalah;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.kalah.db.GameDB;
 import com.kalah.health.KalahHealthcheck;
 import com.kalah.resources.GameResource;
 import io.dropwizard.Application;
@@ -34,7 +35,8 @@ public class KalahApplication extends Application<KalahConfiguration> {
     @Override
     public void run(final KalahConfiguration configuration,
                     final Environment environment) {
-        environment.jersey().register(new GameResource());
+        GameDB db = new GameDB(configuration.getBoardConfiguration());
+        environment.jersey().register(new GameResource(db));
         environment.healthChecks().register("kalah", new KalahHealthcheck());
     }
 

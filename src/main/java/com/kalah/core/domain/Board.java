@@ -1,17 +1,16 @@
 package com.kalah.core.domain;
 
-import java.util.List;
+import com.kalah.db.GameState;
 
-public class Board {
+public interface Board {
 
-    private List<Pit> pits;
-
-    public static Board fromState(GameState gameState) {
+    static Board fromState(GameState gameState) {
         return null;
     }
 
-    public GameState toState() {
-        return null;
-    }
+    GameState toState();
 
+    Player getActivePlayer();
+
+    Player getPitOwner(int pitId);
 }

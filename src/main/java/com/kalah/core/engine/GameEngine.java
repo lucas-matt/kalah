@@ -1,15 +1,15 @@
 package com.kalah.core.engine;
 
 import com.kalah.core.domain.Board;
-import com.kalah.core.domain.GameState;
 import com.kalah.core.domain.Move;
 import com.kalah.core.engine.preconditions.IsPlayersTurnPrecondition;
-import com.kalah.core.engine.rule.WhosNextRule;
-import com.kalah.core.engine.rule.OppositeRule;
-import com.kalah.core.engine.rule.Rule;
-import com.kalah.core.engine.rule.MoveRule;
 import com.kalah.core.engine.preconditions.Precondition;
-import com.kalah.core.engine.preconditions.PreconditionNotSatisfiedException;
+import com.kalah.core.engine.preconditions.PreconditionFailException;
+import com.kalah.core.engine.rules.MoveRule;
+import com.kalah.core.engine.rules.OppositeRule;
+import com.kalah.core.engine.rules.Rule;
+import com.kalah.core.engine.rules.WhosNextRule;
+import com.kalah.db.GameState;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,17 +32,17 @@ public class GameEngine {
     }
 
     public static GameEngine load(GameState gameState) {
-        Board board = Board.fromState(gameState);
+        var board = Board.fromState(gameState);
         return new GameEngine(board);
     }
 
-    public GameState apply(Move move) throws PreconditionNotSatisfiedException {
-        for (Precondition precondition: PRECONDITIONS) {
+    public GameState apply(Move move) throws PreconditionFailException {
+        for (var precondition: PRECONDITIONS) {
             precondition.check(board, move);
         }
-        (new MoveRule(move)).apply(board);
-        for (Rule action: ACTIONS) {
-            action.apply(board);
+        (new MoveRule(move)).accept(board);
+        for (var action: ACTIONS) {
+            action.accept(board);
         }
         return board.toState();
     }

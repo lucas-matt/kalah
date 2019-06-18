@@ -1,22 +1,9 @@
 package com.kalah.core.domain;
 
-public abstract class Pit {
+public interface Pit {
 
-    private int stones;
+    int getStones();
 
-    private Pit next;
-
-    public Pit(int stones, Pit next) {
-        this.stones = stones;
-        this.next = next;
-    }
-
-    public int getStones() {
-        return stones;
-    }
-
-    public Pit next() {
-        return next;
-    }
+    Pit next();
 
 }

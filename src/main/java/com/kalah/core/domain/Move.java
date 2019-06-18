@@ -2,13 +2,13 @@ package com.kalah.core.domain;
 
 public class Move {
 
-    private String pitId;
+    private int pitId;
 
-    public Move(String pitId) {
+    public Move(int pitId) {
         this.pitId = pitId;
     }
 
-    public String getPitId() {
+    public int getPitId() {
         return pitId;
     }
 

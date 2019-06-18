@@ -5,3 +5,7 @@ logging:
 
 swagger:
   resourcePackage: com.kalah.resources
+
+board:
+  pitsPerPlayer: 6
+  stonesPerPit: 6

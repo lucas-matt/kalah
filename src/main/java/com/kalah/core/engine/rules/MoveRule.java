@@ -1,4 +1,4 @@
-package com.kalah.core.engine.rule;
+package com.kalah.core.engine.rules;
 
 import com.kalah.core.domain.Board;
 import com.kalah.core.domain.Move;
@@ -12,8 +12,8 @@ public class MoveRule implements Rule {
     }
 
     @Override
-    public void apply(Board board) {
-
+    public void accept(Board board) {
+        
     }
 
 }
