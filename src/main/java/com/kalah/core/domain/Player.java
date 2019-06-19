@@ -29,4 +29,8 @@ public enum Player {
                 .collect(Collectors.toList());
     }
 
+    public Player opponent() {
+        return this.equals(ONE) ? TWO : ONE;
+    }
+
 }

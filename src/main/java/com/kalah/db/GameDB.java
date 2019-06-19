@@ -20,11 +20,12 @@ public class GameDB {
 
     public GameState create() {
         GameState gameState = new GameState(UUID.randomUUID());
+        gameState.setStatus(buildInitialState());
         registry.put(gameState.getId(), gameState);
         return gameState;
     }
 
-    private Map<String, Integer> buildInitialState() {
+    private Map<Integer, Integer> buildInitialState() {
         int pitsPerPlayer = this.boardSpec.getPitsPerPlayer();
         Integer stonesPerPit = this.boardSpec.getStonesPerPit();
         var kalahPos = pitsPerPlayer + 1;
@@ -33,7 +34,7 @@ public class GameDB {
                 .boxed()
                 .collect(
                         Collectors.toMap(
-                                i -> i.toString(),
+                                i -> i,
                                 i -> (i % kalahPos == 0) ? 0 : stonesPerPit
                         )
                 );

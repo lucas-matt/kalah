@@ -4,7 +4,7 @@ public class Pit extends Sowable {
 
     private Pit opposite;
 
-    public Pit(int stones) {
+    public Pit(Integer idx, int stones) {
         super(stones);
     }
 
@@ -18,7 +18,7 @@ public class Pit extends Sowable {
         return opposite;
     }
 
-    public void setOpposite(Pit opposite) {
+    void setOpposite(Pit opposite) {
         this.opposite = opposite;
     }
 

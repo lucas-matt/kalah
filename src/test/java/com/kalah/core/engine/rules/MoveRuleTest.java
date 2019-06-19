@@ -24,7 +24,7 @@ public class MoveRuleTest {
 
     @Test
     public void shouldDistributeStones() {
-        Pit initial = new Pit(10);
+        Pit initial = new Pit(1, 10);
         var chain = buildChain(10);
         initial.setNext(chain.get(0));
 
@@ -41,7 +41,7 @@ public class MoveRuleTest {
 
     @Test
     public void shouldDistributeCircular() {
-        Pit initial = new Pit(10);
+        Pit initial = new Pit(1, 10);
         var chain = buildChain(5);
         initial.setNext(chain.get(0));
         chain.get(chain.size() - 1).setNext(initial);
@@ -61,9 +61,9 @@ public class MoveRuleTest {
 
     private static List<Sowable> buildChain(int n) {
         List<Sowable> sowables = new ArrayList<>();
-        sowables.add(new Pit(0));
+        sowables.add(new Pit(0, 0));
         for (int i = 1; i < n; i++) {
-            Pit next = new Pit(0);
+            Pit next = new Pit(i, 0);
             sowables.get(sowables.size() - 1).setNext(next);
             sowables.add(next);
         }

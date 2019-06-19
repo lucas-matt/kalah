@@ -50,8 +50,8 @@ public class GameDBTest {
         GameState gameState = db.create();
 
         // based on 6x6 default configuration
-        Map<String, Integer> player1Pieces = Map.of("1", 6, "2", 6, "3", 6, "4", 6, "5", 6, "6", 6, "7", 0);
-        Map<String, Integer> player2Pieces = Map.of("8", 6, "9", 6, "10", 6, "11", 6, "12", 6, "13", 6, "14", 0);
+        Map<Integer, Integer> player1Pieces = Map.of(1, 6, 2, 6, 3, 6, 4, 6, 5, 6, 6, 6, 7, 0);
+        Map<Integer, Integer> player2Pieces = Map.of(8, 6, 9, 6, 10, 6, 11, 6, 12, 6, 13, 6, 14, 0);
         var allPieces = new HashMap<>();
         allPieces.putAll(player1Pieces);
         allPieces.putAll(player2Pieces);

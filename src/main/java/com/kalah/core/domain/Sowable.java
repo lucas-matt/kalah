@@ -6,6 +6,8 @@ public abstract class Sowable {
 
     private Sowable next;
 
+    private Sowable previous;
+
     private Player owner;
 
     public Sowable(int stones) {
@@ -24,8 +26,15 @@ public abstract class Sowable {
         return next;
     }
 
+    public Sowable previous() {
+        return previous;
+    }
+
     public void setNext(Sowable next) {
         this.next = next;
     }
 
+    public void setPrevious(Sowable previous) {
+        this.previous = previous;
+    }
 }
