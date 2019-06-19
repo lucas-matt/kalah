@@ -20,9 +20,6 @@ public class GameDB {
 
     public GameState create() {
         GameState gameState = new GameState(UUID.randomUUID());
-        gameState.setStatus(
-            buildInitialState()
-        );
         registry.put(gameState.getId(), gameState);
         return gameState;
     }

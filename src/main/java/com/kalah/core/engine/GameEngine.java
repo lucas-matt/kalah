@@ -6,9 +6,7 @@ import com.kalah.core.engine.preconditions.IsPlayersTurnPrecondition;
 import com.kalah.core.engine.preconditions.Precondition;
 import com.kalah.core.engine.preconditions.PreconditionFailException;
 import com.kalah.core.engine.rules.MoveRule;
-import com.kalah.core.engine.rules.OppositeRule;
 import com.kalah.core.engine.rules.Rule;
-import com.kalah.core.engine.rules.WhosNextRule;
 import com.kalah.db.GameState;
 
 import java.util.Arrays;
@@ -18,11 +16,6 @@ public class GameEngine {
 
     private static List<Precondition> PRECONDITIONS = Arrays.asList(
         new IsPlayersTurnPrecondition()
-    );
-
-    private List<Rule> ACTIONS = Arrays.asList(
-        new OppositeRule(),
-        new WhosNextRule()
     );
 
     private Board board;
@@ -41,7 +34,7 @@ public class GameEngine {
             precondition.check(board, move);
         }
         (new MoveRule(move)).accept(board);
-        for (var action: ACTIONS) {
+        for (var action: Rule.RULESET) {
             action.accept(board);
         }
         return board.toState();

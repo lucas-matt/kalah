@@ -35,7 +35,7 @@ public class GameResponse {
                 .stream()
                 .collect(
                         Collectors.toMap(
-                                Map.Entry::getKey,
+                                (e) -> e.getKey().toString(),
                                 (e) -> e.getValue().toString()
                         )
                 );

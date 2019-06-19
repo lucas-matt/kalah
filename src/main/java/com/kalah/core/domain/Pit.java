@@ -1,15 +1,25 @@
 package com.kalah.core.domain;
 
-public interface Pit {
+public class Pit extends Sowable {
 
-    int count();
+    private Pit opposite;
 
-    int takeAll();
+    public Pit(int stones) {
+        super(stones);
+    }
 
-    int increment();
+    public int takeAll() {
+        var taken = this.stones;
+        this.stones = 0;
+        return taken;
+    }
 
-    Pit next();
+    public Pit opposite() {
+        return opposite;
+    }
 
-    Pit opposite();
+    public void setOpposite(Pit opposite) {
+        this.opposite = opposite;
+    }
 
 }

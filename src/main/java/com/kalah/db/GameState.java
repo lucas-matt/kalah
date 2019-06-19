@@ -1,8 +1,6 @@
 package com.kalah.db;
 
 import com.kalah.core.domain.Player;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Map;
 import java.util.Objects;
@@ -12,7 +10,7 @@ public class GameState {
 
     private UUID id;
 
-    private Map<String ,Integer> status;
+    private Map<Integer ,Integer> status;
 
     private Player nextTurn;
 
@@ -25,12 +23,16 @@ public class GameState {
         return id;
     }
 
-    public Map<String, Integer> getStatus() {
+    public Map<Integer, Integer> getStatus() {
         return status;
     }
 
-    public void setStatus(Map<String, Integer> status) {
+    public void setStatus(Map<Integer, Integer> status) {
         this.status = status;
+    }
+
+    public Player getNextTurn() {
+        return nextTurn;
     }
 
     @Override
