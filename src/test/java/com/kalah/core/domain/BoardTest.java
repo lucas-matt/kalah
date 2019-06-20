@@ -21,7 +21,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testOpposites() {
+    public void pitsShouldHaveOpposites() {
         Board board1 = buildBoard(Player.ONE);
         assertThat(board1.getPit(1).opposite().getIdx()).isEqualTo(5);
         assertThat(board1.getPit(2).opposite().getIdx()).isEqualTo(4);
@@ -30,10 +30,30 @@ public class BoardTest {
         assertThat(board2.getPit(4).opposite().getIdx()).isEqualTo(2);
     }
 
-    private void testConnectedState(int idx, Player player, List<Integer> assertions) {
-        BoardImpl board = buildBoard(player);
+    @Test
+    public void shouldFormUpdatedState() {
+        Board board = buildBoard(Player.ONE);
+        Pit pit = board.getPit(1);
+        pit.takeAll();
+        pit.next().add(1);
+        GameState state = board.toState();
+        assertThat(state.getStatus()).isEqualTo(
+                Map.of(
+                        1, 0,
+                        2, 3,
+                        3, 3,
+                        4, 4,
+                        5, 5,
+                        6, 6
 
-        Sowable pit = board.getPit(idx);
+                )
+        );
+    }
+
+    private void testConnectedState(int idx, Player player, List<Integer> assertions) {
+        PlayerBoardView board = buildBoard(player);
+
+        Pit pit = board.getPit(idx);
         List<Integer> counts = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             counts.add(pit.count());
@@ -42,7 +62,7 @@ public class BoardTest {
         assertThat(counts).isEqualTo(assertions);
     }
 
-    private BoardImpl buildBoard(Player player) {
+    private PlayerBoardView buildBoard(Player player) {
         GameState state = new GameState(UUID.randomUUID());
         state.setNextTurn(player);
         state.setStatus(Map.of(
@@ -54,7 +74,7 @@ public class BoardTest {
                 6, 6
         ));
 
-        BoardImpl board = new BoardImpl();
+        PlayerBoardView board = new PlayerBoardView();
         board.fromState(state);
         return board;
     }

@@ -6,9 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Visitor(esque) interface that accepts a Board data structure and
+ * applies a mutable rule to it
+ */
 public interface Rule extends Consumer<Board> {
 
-    List<Rule> RULESET = Arrays.asList(
+    /**
+     * Default set of rules
+     */
+    List<Rule> SET = Arrays.asList(
             new OppositeRule(),
             new WhosNextRule(),
             new GameOverRule()

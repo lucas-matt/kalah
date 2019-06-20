@@ -3,16 +3,17 @@ package com.kalah.core.engine.rules;
 import com.kalah.core.domain.Board;
 import com.kalah.core.domain.Move;
 import com.kalah.core.domain.Pit;
-import com.kalah.core.domain.Sowable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +35,7 @@ public class MoveRuleTest {
 
         assertThat(initial.count()).isEqualTo(0);
         List<Integer> stones = chain.stream()
-                .map(Sowable::count)
+                .map(Pit::count)
                 .collect(Collectors.toList());
         assertThat(stones).isEqualTo(Collections.nCopies(10, 1));
     }
@@ -52,15 +53,15 @@ public class MoveRuleTest {
 
         assertThat(initial.count()).isEqualTo(1);
         List<Integer> stones = chain.stream()
-                .map(Sowable::count)
+                .map(Pit::count)
                 .collect(Collectors.toList());
         assertThat(stones).isEqualTo(Arrays.asList(
                 2, 2, 2, 2, 1
         ));
     }
 
-    private static List<Sowable> buildChain(int n) {
-        List<Sowable> sowables = new ArrayList<>();
+    private static List<Pit> buildChain(int n) {
+        List<Pit> sowables = new ArrayList<>();
         sowables.add(new Pit(0, 0));
         for (int i = 1; i < n; i++) {
             Pit next = new Pit(i, 0);

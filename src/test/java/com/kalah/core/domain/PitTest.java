@@ -17,7 +17,7 @@ public class PitTest {
     @Test
     public void shouldBeAbleToIncrement() {
         Pit pit = new Pit(1, 1);
-        pit.increment();
+        pit.add(1);
         assertThat(pit.count()).isEqualTo(2);
     }
 

@@ -6,6 +6,7 @@ import com.kalah.core.domain.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class IsPlayersTurnPreconditionTest {
 
-    @Mock
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private Board board;
 
     private Precondition precondition;
@@ -27,14 +28,14 @@ public class IsPlayersTurnPreconditionTest {
     @Test(expected = PreconditionFailException.class)
     public void shouldFailOnPlayerMismatch() throws PreconditionFailException {
         when(board.getActivePlayer()).thenReturn(Player.ONE);
-        when(board.getPitOwner(10)).thenReturn(Player.TWO);
+        when(board.getPit(10).getOwner()).thenReturn(Player.TWO);
         precondition.check(board, new Move(10));
     }
 
     @Test()
     public void shouldPassOnMatch() throws PreconditionFailException {
         when(board.getActivePlayer()).thenReturn(Player.TWO);
-        when(board.getPitOwner(10)).thenReturn(Player.TWO);
+        when(board.getPit(10).getOwner()).thenReturn(Player.TWO);
         precondition.check(board, new Move(10));
     }
 

@@ -3,8 +3,14 @@ package com.kalah.core.engine.preconditions;
 import com.kalah.core.domain.Board;
 import com.kalah.core.domain.Move;
 
-public class IsValidMovePrecondition implements Precondition {
+/**
+ * Asserts that the move is valid - i.e. not attempting to move the house/store
+ */
+class IsValidMovePrecondition implements Precondition {
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void check(Board board, Move move) throws PreconditionFailException {
         int pit = move.getPitId();

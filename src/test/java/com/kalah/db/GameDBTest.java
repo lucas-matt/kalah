@@ -1,6 +1,5 @@
 package com.kalah.db;
 
-import com.google.common.collect.ImmutableMap;
 import com.kalah.KalahConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameDBTest {
 
-    private GameDB db;
+    private GameRegistry db;
 
     @Before
     public void setUp() {
         KalahConfiguration.BoardConfiguration board = new KalahConfiguration.BoardConfiguration(6, 6);
-        this.db = new GameDB(board);
+        this.db = new GameRegistry(board);
     }
 
     @Test
