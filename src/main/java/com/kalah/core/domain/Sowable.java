@@ -8,9 +8,12 @@ public abstract class Sowable {
 
     private Sowable previous;
 
+    private int idx;
+
     private Player owner;
 
-    public Sowable(int stones) {
+    public Sowable(int idx, int stones) {
+        this.idx = idx;
         this.stones = stones;
     }
 
@@ -37,4 +40,15 @@ public abstract class Sowable {
     public void setPrevious(Sowable previous) {
         this.previous = previous;
     }
+
+    public int getIdx() {
+        return idx;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    abstract boolean isPit();
+
 }

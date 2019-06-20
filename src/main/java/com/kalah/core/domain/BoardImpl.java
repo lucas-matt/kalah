@@ -12,23 +12,52 @@ class BoardImpl implements Board {
 
     private GameState state;
 
+    private List<Pit> playable;
+
+    private House house;
+
+    private int boardSize;
+
+    private Map<Integer, Sowable> index;
+
     void fromState(GameState state) {
         this.state = state;
 
         Player active = state.getNextTurn();
 
         Map<Integer, Integer> status = state.getStatus();
-        int boardSize = status.size();
+        boardSize = status.size();
 
-        List<Pit> playablePits = asPits(active.pits(boardSize));
-        int houseIdx = active.house(boardSize);
-        House house = new House(houseIdx, status.get(houseIdx));
-        List<Pit> opponentPits = asPits(active.opponent().pits(boardSize));
+        playable = pitsOf(active);
+        house = houseOf(active);
 
-        putTogetherBoard(playablePits, house, opponentPits);
+        List<Pit> opponentPits = pitsOf(active.opponent());
+        House opponentHouse = houseOf(active.opponent());
+
+        putTogetherBoard(playable, house, opponentPits);
+        index = indexSowable(playable, house, opponentPits, opponentHouse);
     }
 
-    static void putTogetherBoard(List<Pit> playablePits, House house, List<Pit> opponentPits) {
+    private static Map<Integer, Sowable> indexSowable(List<Pit> playable, House house, List<Pit> opponentPits, House opponentHouse) {
+        List<Sowable> components = ImmutableList.<Sowable>builder()
+                .addAll(playable)
+                .add(house)
+                .addAll(opponentPits)
+                .add(opponentHouse)
+                .build();
+        return components.stream()
+                .collect(Collectors.toMap(
+                        Sowable::getIdx,
+                        (s) -> s
+                ));
+    }
+
+    private House houseOf(Player player) {
+        int houseIdx = player.house(boardSize);
+        return new House(houseIdx, state.getStatus().get(houseIdx));
+    }
+
+    private static void putTogetherBoard(List<Pit> playablePits, House house, List<Pit> opponentPits) {
         List<Sowable> sowable = ImmutableList.<Sowable>builder()
                 .addAll(playablePits)
                 .add(house)
@@ -57,14 +86,24 @@ class BoardImpl implements Board {
         }
     }
 
-    private List<Pit> asPits(List<Integer> idxes) {
+    private List<Pit> pitsOf(Player player) {
+        List<Integer> idxes = player.pits(boardSize);
         return idxes.stream()
                 .map(idx -> new Pit(idx, state.getStatus().get(idx))).collect(Collectors.toList());
     }
 
     @Override
     public GameState toState() {
-        return null;
+        Map<Integer, Integer> status = index.entrySet()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                (e) -> e.getKey(),
+                                (e) -> e.getValue().count()
+                        )
+                );
+        state.setStatus(status);
+        return state;
     }
 
     @Override
@@ -73,18 +112,18 @@ class BoardImpl implements Board {
     }
 
     @Override
-    public boolean isPit(int pit) {
-        return false;
+    public boolean isPit(int pitIdx) {
+        return getPit(pitIdx).isPit();
     }
 
     @Override
     public Pit getPit(int pitId) {
-        return null;
+        return getPit(pitId);
     }
 
     @Override
     public Player getPitOwner(int pitId) {
-        return null;
+        return getPit(pitId).getOwner();
     }
 
 

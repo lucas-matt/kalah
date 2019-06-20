@@ -5,7 +5,7 @@ public class Pit extends Sowable {
     private Pit opposite;
 
     public Pit(Integer idx, int stones) {
-        super(stones);
+        super(idx, stones);
     }
 
     public int takeAll() {
@@ -22,4 +22,8 @@ public class Pit extends Sowable {
         this.opposite = opposite;
     }
 
+    @Override
+    boolean isPit() {
+        return true;
+    }
 }

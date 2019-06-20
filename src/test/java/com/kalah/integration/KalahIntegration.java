@@ -37,6 +37,11 @@ public class KalahIntegration {
         assertThat(game.getStatus()).isNull();
     }
 
+    @Test
+    public void shouldFollowExamplePlay() {
+
+    }
+
     private static String path(String relative) {
         return String.format("http://localhost:%s%s", APP.getLocalPort(), relative);
     }
