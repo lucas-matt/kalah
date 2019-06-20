@@ -16,6 +16,8 @@ public class KalahApplication extends Application<KalahConfiguration> {
         new KalahApplication().run(args);
     }
 
+    private GameRegistry db;
+
     @Override
     public String getName() {
         return "Kalah";
@@ -35,9 +37,12 @@ public class KalahApplication extends Application<KalahConfiguration> {
     @Override
     public void run(final KalahConfiguration configuration,
                     final Environment environment) {
-        GameRegistry db = new GameRegistry(configuration.getBoardConfiguration());
+        db = new GameRegistry(configuration.getBoardConfiguration());
         environment.jersey().register(new GameResource(db));
         environment.healthChecks().register("kalah", new KalahHealthcheck());
     }
 
+    public GameRegistry getDb() {
+        return db;
+    }
 }

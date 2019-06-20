@@ -10,10 +10,9 @@ import com.kalah.db.GameNotFoundException;
 import com.kalah.db.GameRegistry;
 import com.kalah.db.GameState;
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.UUID;
 
-@Api
+@Api(value = "Kalah")
 @Path("/games")
 @Produces(MediaType.APPLICATION_JSON)
 public class GameResource {
@@ -43,20 +42,11 @@ public class GameResource {
         this.db = db;
     }
 
-    @Operation(
-            description = "Creates a new game of kalah",
-            responses = {
-                    @ApiResponse(responseCode = "201",
-                            description = "Created",
-                            content = @Content(schema =
-                                @Schema(implementation = GameResponse.class)
-                            )
-                    ),
-                    @ApiResponse(responseCode = "500",
-                            description = "Internal Server Error"
-                    )
-            }
-    )
+    @ApiOperation(value = "Creates a new game of kalah", response = GameResponse.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created game"),
+            @ApiResponse(code = 500, message = "Internal server error"),
+    })
     @POST
     @Timed
     public Response createGame() {
@@ -73,37 +63,22 @@ public class GameResource {
 
     }
 
-    @Operation(
-            description = "Applies a move to the existing Kalah game",
-            responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "Ok",
-                            content = @Content(schema =
-                            @Schema(implementation = GameResponse.class)
-                            )
-                    ),
-                    @ApiResponse(responseCode = "500",
-                            description = "Internal Server Error"
-                    ),
-                    @ApiResponse(responseCode = "500",
-                            description = "Internal Server Error"
-                    )
-            }
-    )
+    @ApiOperation(value = "Applies a move to the existing Kalah game", response = GameResponse.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 503, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal server error"),
+    })
     @PUT
     @Path("/{gameId}/pits/{pitId}")
     @Timed
     public Response move(@PathParam("gameId") UUID gameId, @PathParam("pitId") int pitId) {
         try {
-            GameState currentState = db.get(gameId);
-            GameEngine engine = GameEngine.load(currentState);
-            GameState nextState = engine.apply(new Move(pitId));
-            db.put(nextState);
+            GameState nextState = executeMove(gameId, pitId);
             URI baseUri = uriInfo.getBaseUri().resolve(RESOURCE_PATH);
             GameResponse gameResponse = GameResponse
                     .fromWithStatus(nextState)
                     .withResourcePath(baseUri);
-            LOG.info("Move completed @ pit {} for game {}", pitId, gameId);
             return Response.ok(gameResponse).build();
         } catch (GameNotFoundException | PreconditionFailException e) {
             LOG.error("Error encountered handling move", e);
@@ -112,6 +87,15 @@ public class GameResource {
                     .entity(error)
                     .build();
         }
+    }
+
+    private GameState executeMove(UUID gameId, int pitId) throws GameNotFoundException, PreconditionFailException {
+        GameState currentState = db.get(gameId);
+        GameEngine engine = GameEngine.load(currentState);
+        GameState nextState = engine.apply(new Move(pitId));
+        db.put(nextState);
+        LOG.info("Move completed @ pit {} for game {}", pitId, gameId);
+        return nextState;
     }
 
 }

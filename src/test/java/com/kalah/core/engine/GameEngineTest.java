@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PlayGameTest {
+public class GameEngineTest {
 
     @Test
     public void loopingMove() throws PreconditionFailException {
@@ -28,6 +29,11 @@ public class PlayGameTest {
                 5, 8, 11, 3, 1, 2,    9   // player 2
         ));
         assertThat(nextState.getNextTurn()).isEqualTo(Player.ONE);
+    }
+
+    @Test
+    public void captureMove() {
+        fail();
     }
 
     private static Map<Integer, Integer> mkState(Integer... pits) {
