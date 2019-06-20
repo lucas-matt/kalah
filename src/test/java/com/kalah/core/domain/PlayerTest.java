@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestPlayer {
+public class PlayerTest {
 
     @Test
     public void testPlayerOneBounds() {

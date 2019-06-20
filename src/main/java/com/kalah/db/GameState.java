@@ -35,6 +35,10 @@ public class GameState {
         return nextTurn;
     }
 
+    public void setNextTurn(Player nextTurn) {
+        this.nextTurn = nextTurn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -118,7 +118,10 @@ class BoardImpl implements Board {
 
     @Override
     public Pit getPit(int pitId) {
-        return getPit(pitId);
+        return playable.stream()
+                .filter((p) -> p.getIdx() == pitId)
+                .findFirst()
+                .get();
     }
 
     @Override
