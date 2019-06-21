@@ -80,6 +80,12 @@ public interface Board {
     void gameOver();
 
     /**
+     * Returns true is game is finished
+     * @return
+     */
+    boolean isCompleted();
+
+    /**
      * Sets the next player to have a turn
      * @param player
      */

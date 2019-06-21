@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.kalah.utils.TestUtils.mkState;
 import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,18 +33,20 @@ public class GameEngineTest {
     }
 
     @Test
-    public void captureMove() {
-        fail();
+    public void captureMove() throws PreconditionFailException {
+        GameState state = new GameState(UUID.randomUUID());
+        state.setStatus(mkState(
+                0, 0, 0, 1, 0, 0,     10,
+                0, 20, 0, 0, 0, 0,    10
+        ));
+        GameEngine engine = GameEngine.load(state);
+        GameState nextState = engine.apply(new Move(4));
+        assertThat(nextState.getStatus()).isEqualTo(mkState(
+                0, 0, 0, 0, 0, 0,    31,
+                0, 0, 0, 0, 0, 0,     10
+        ));
+        assertThat(nextState.getNextTurn()).isEqualTo(Player.TWO);
     }
 
-    private static Map<Integer, Integer> mkState(Integer... pits) {
-        Map<Integer, Integer> st = new HashMap<>();
-        int idx = 1;
-        for (int i: pits) {
-            st.put(idx++, i);
-        }
-        assertThat(st.size()).isEqualTo(14);
-        return st;
-    }
 
 }

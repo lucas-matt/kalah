@@ -14,6 +14,8 @@ public class GameState {
 
     private Player nextTurn;
 
+    private boolean completed;
+
     public GameState(UUID id) {
         this.id = id;
         this.nextTurn = Player.ONE;
@@ -37,6 +39,14 @@ public class GameState {
 
     public void setNextTurn(Player nextTurn) {
         this.nextTurn = nextTurn;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override

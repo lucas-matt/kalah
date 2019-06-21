@@ -65,7 +65,12 @@ class PlayerBoardView implements Board {
 
     @Override
     public void gameOver() {
+        state.setCompleted(true);
+    }
 
+    @Override
+    public boolean isCompleted() {
+        return state.isCompleted();
     }
 
     @Override
