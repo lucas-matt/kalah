@@ -4,14 +4,11 @@ import com.kalah.core.domain.Move;
 import com.kalah.core.domain.Player;
 import com.kalah.core.engine.preconditions.PreconditionFailException;
 import com.kalah.db.GameState;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.kalah.utils.TestUtils.mkState;
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GameEngineTest {

@@ -1,37 +1,49 @@
 package com.kalah.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.kalah.KalahApplication;
 import com.kalah.KalahConfiguration;
 import com.kalah.api.GameResponse;
-import com.kalah.db.GameRegistry;
-import io.dropwizard.Application;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.junit.ClassRule;
-import org.junit.Test;
+import io.dropwizard.testing.DropwizardTestSupport;
+import io.dropwizard.testing.ResourceHelpers;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
-
 import java.util.UUID;
 
-import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * TODO - should run in separate integration phase
+ */
 @Tag("integration")
-public class KalahIntegration {
+public class KalahIT {
 
-    @ClassRule
-    public static final DropwizardAppRule<KalahConfiguration> APP = new DropwizardAppRule<>(KalahApplication.class, resourceFilePath("integration-test-config.yml"));
+    public static final DropwizardTestSupport<KalahConfiguration> SUPPORT =
+            new DropwizardTestSupport<>(KalahApplication.class,
+                ResourceHelpers.resourceFilePath("integration-test-config.yml"));
 
     private static final Entity<String> NO_BODY = Entity.text("");
 
+    @BeforeAll
+    public static void beforeClass() {
+        SUPPORT.before();
+    }
+
+    @AfterAll
+    public static void afterClass() {
+        SUPPORT.after();
+    }
+
     @Test
     public void shouldCreateNewGame() {
-        Client client = APP.client();
+        Client client = new JerseyClientBuilder().build();
         Response response = client.target(path("/games"))
                 .request()
                 .post(NO_BODY);
@@ -44,7 +56,7 @@ public class KalahIntegration {
 
     @Test
     public void shouldMakeAMove() {
-        Client client = APP.client();
+        Client client = new JerseyClientBuilder().build();
         Response response = client.target(path("/games"))
                 .request()
                 .post(NO_BODY);
@@ -76,7 +88,7 @@ public class KalahIntegration {
     }
 
     private static String path(String relative) {
-        return String.format("http://localhost:%s%s", APP.getLocalPort(), relative);
+        return String.format("http://localhost:%s%s", SUPPORT.getLocalPort(), relative);
     }
 
 }

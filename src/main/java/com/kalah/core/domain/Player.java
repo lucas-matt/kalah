@@ -27,8 +27,8 @@ public enum Player {
 
     /**
      * Given a board size, returns the index of the house pit
-     * @param boardSize
-     * @return
+     * @param boardSize the size of the board
+     * @return - index of player's house
      */
     public int house(int boardSize) {
         int half = boardSize / 2;
@@ -37,8 +37,8 @@ public enum Player {
 
     /**
      * Given a board size, returns a list of indexes for the playable pits
-     * @param boardSize
-     * @return
+     * @param boardSize - the board size
+     * @return - indexes of pits
      */
     public List<Integer> pits(int boardSize) {
         int half = boardSize / 2;
@@ -50,7 +50,7 @@ public enum Player {
 
     /**
      * The opponent of this player
-     * @return
+     * @return - the player's opponent
      */
     public Player opponent() {
         return this.equals(ONE) ? TWO : ONE;

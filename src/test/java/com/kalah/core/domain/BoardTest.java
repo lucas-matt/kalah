@@ -2,7 +2,7 @@ package com.kalah.core.domain;
 
 
 import com.kalah.db.GameState;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 

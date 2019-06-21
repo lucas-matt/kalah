@@ -7,6 +7,7 @@ import com.kalah.db.GameState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -76,6 +77,11 @@ class PlayerBoardView implements Board {
     @Override
     public void setNextTurn(Player player) {
         this.state.setNextTurn(player);
+    }
+
+    @Override
+    public UUID getId() {
+        return this.state.getId();
     }
 
     void fromState(GameState state) {

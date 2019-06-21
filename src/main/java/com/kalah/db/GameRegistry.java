@@ -24,7 +24,7 @@ public class GameRegistry {
 
     /**
      * Create a new game with the initial state of a new game
-     * @return
+     * @return - new game state
      */
     public GameState create() {
         GameState gameState = new GameState(UUID.randomUUID());
@@ -39,7 +39,7 @@ public class GameRegistry {
      */
     private Map<Integer, Integer> buildInitialState() {
         int pitsPerPlayer = this.boardSpec.getPitsPerPlayer();
-        Integer stonesPerPit = this.boardSpec.getStonesPerPit();
+        int stonesPerPit = this.boardSpec.getStonesPerPit();
         var kalahPos = pitsPerPlayer + 1;
         var boardSize = (pitsPerPlayer * 2) + 2;
         return IntStream.rangeClosed(1, boardSize)
@@ -67,7 +67,7 @@ public class GameRegistry {
 
     /**
      * Save state of
-     * @param gameState
+     * @param gameState - to save
      */
     public void put(GameState gameState) {
         registry.put(gameState.getId(), gameState);

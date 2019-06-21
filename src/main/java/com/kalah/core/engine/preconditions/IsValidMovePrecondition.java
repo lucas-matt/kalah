@@ -9,7 +9,7 @@ import com.kalah.core.domain.Move;
 class IsValidMovePrecondition implements Precondition {
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void check(Board board, Move move) throws PreconditionFailException {

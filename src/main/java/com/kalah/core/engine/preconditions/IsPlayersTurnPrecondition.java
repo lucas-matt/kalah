@@ -3,6 +3,9 @@ package com.kalah.core.engine.preconditions;
 import com.kalah.core.domain.Board;
 import com.kalah.core.domain.Move;
 import com.kalah.core.domain.Player;
+import com.kalah.resources.GameResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Assertion that it is the moving player's turn
@@ -10,7 +13,7 @@ import com.kalah.core.domain.Player;
 class IsPlayersTurnPrecondition implements Precondition {
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void check(Board board, Move move) throws PreconditionFailException {

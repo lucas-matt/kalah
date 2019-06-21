@@ -20,7 +20,7 @@ public class MoveRule implements Rule {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void accept(Board board) {

@@ -3,6 +3,7 @@ package com.kalah.core.domain;
 import com.kalah.db.GameState;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface for the core element of Kalah, holding core data structures
@@ -35,8 +36,8 @@ public interface Board {
 
     /**
      * Return true if pit with given id is a valid pit (i.e. not a house)
-     * @param pit
-     * @return
+     * @param pit - index of pit
+     * @return true if indexed hole is a pit
      */
     boolean isPit(int pit);
 
@@ -50,7 +51,7 @@ public interface Board {
     /**
      * Log an event that describes some operation performed by the user
      * TODO - this is a bit clunky, refactor to capture mutations more smoothly
-     * @param evt
+     * @param evt - event to be logged
      */
     void logEvent(Event evt);
 
@@ -63,7 +64,7 @@ public interface Board {
 
     /**
      * Returns an instance of the house owned by a player
-     * @param player
+     * @param player - player instance
      * @return house instance
      */
     Pit getHouse(Player player);
@@ -81,13 +82,20 @@ public interface Board {
 
     /**
      * Returns true is game is finished
-     * @return
+     * @return true if game is completed
      */
     boolean isCompleted();
 
     /**
      * Sets the next player to have a turn
-     * @param player
+     * @param player - to set
      */
     void setNextTurn(Player player);
+
+    /**
+     * Returns game id
+     * @return UUID for game
+     */
+    UUID getId();
+
 }

@@ -1,8 +1,8 @@
 package com.kalah.db;
 
 import com.kalah.KalahConfiguration;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class GameDBTest {
 
     private GameRegistry db;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         KalahConfiguration.BoardConfiguration board = new KalahConfiguration.BoardConfiguration(6, 6);
         this.db = new GameRegistry(board);
